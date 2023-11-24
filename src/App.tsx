@@ -43,7 +43,7 @@ function App() {
 
         <button
           onClick={nextScene}
-          className="group absolute oval rounded-r-none flex justify-center items-center h-full min-w-[20%] transition-colors bg-opacity-0 bg-white hover:bg-opacity-25 active:bg-opacity-25 right-0"
+          className="absolute oval rounded-r-none flex justify-center items-center h-full min-w-[20%] transition-colors bg-opacity-0 bg-white hover:bg-opacity-25 active:bg-opacity-25 right-0"
         >
           <ChevronRightIcon className="w-12 mx-12 transition-transform group-hover:scale-110 text-white opacity-50 group-hover:opacity-100 group-active:opacity-100" />
         </button>
