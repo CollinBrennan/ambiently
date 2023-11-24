@@ -21,24 +21,22 @@ const Player = ({ src }: { src: string }) => {
     if (isPlaying) audio.current.play()
   }, [src])
 
+  useEffect(() => {
+    if (isPlaying) {
+      audio.current.play()
+    } else {
+      audio.current.pause()
+    }
+  }, [isPlaying])
+
   function handleVolumeChange(newVolume: number) {
     audio.current.volume = newVolume
     localStorage.setItem('volume', newVolume.toString())
   }
 
-  function toggleAudio() {
-    if (isPlaying) {
-      audio.current.pause()
-      setIsPlaying(false)
-    } else {
-      audio.current.play()
-      setIsPlaying(true)
-    }
-  }
-
   return (
-    <div className="backdrop-blur backdrop-brightness-95 rounded-[1.5rem] flex flex-row gap-4 p-6 justify-center items-center">
-      <button onClick={toggleAudio}>
+    <div className="backdrop-blur backdrop-brightness-95 rounded-3xl flex flex-row gap-4 p-6 justify-center items-center">
+      <button onClick={() => setIsPlaying((prevIsPlaying) => !prevIsPlaying)}>
         {!isPlaying ? (
           <PlayIcon className="w-12 scale-100 transition-transform hover:scale-110 text-white" />
         ) : (

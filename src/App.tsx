@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/react/20/solid'
 import Player from './components/Player'
-import scenes from './scenes'
+import scenes from './assets/scenes'
 
 function App() {
   const [sceneIndex, setSceneIndex] = useState(0)
