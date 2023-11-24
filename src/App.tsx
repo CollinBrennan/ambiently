@@ -11,6 +11,13 @@ function App() {
   const [sceneIndex, setSceneIndex] = useState(0)
   const scene = scenes[sceneIndex]
   const transitionDuration = 150
+  preloadImages()
+
+  function preloadImages() {
+    scenes.forEach((scene) => {
+      new Image().src = scene.image
+    })
+  }
 
   function nextScene() {
     setIsSceneChanging(true)
