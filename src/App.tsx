@@ -11,7 +11,6 @@ function App() {
   const [sceneIndex, setSceneIndex] = useState(0)
   const scene = scenes[sceneIndex]
   const transitionDuration = 150
-  preloadImages()
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
@@ -28,7 +27,7 @@ function App() {
           break
       }
     }
-
+    preloadImages()
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [])
@@ -40,13 +39,13 @@ function App() {
   }
 
   function toggleDim() {
-    setIsDim((prevIsDim) => !prevIsDim)
+    setIsDim((prev) => !prev)
   }
 
   function nextScene() {
     setIsSceneChanging(true)
     setTimeout(() => {
-      setSceneIndex((prevSceneIndex) => (prevSceneIndex + 1) % scenes.length)
+      setSceneIndex((prev) => (prev + 1) % scenes.length)
       setIsSceneChanging(false)
     }, transitionDuration)
   }
@@ -54,10 +53,7 @@ function App() {
   function prevScene() {
     setIsSceneChanging(true)
     setTimeout(() => {
-      setSceneIndex(
-        (prevSceneIndex) =>
-          (prevSceneIndex === 0 ? scenes.length : prevSceneIndex) - 1
-      )
+      setSceneIndex((prev) => (prev === 0 ? scenes.length : prev) - 1)
       setIsSceneChanging(false)
     }, transitionDuration)
   }
