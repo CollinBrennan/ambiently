@@ -1,19 +1,23 @@
 import { useState } from 'react'
 import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/react/20/solid'
+import { MoonIcon } from '@heroicons/react/24/solid'
+import { MoonIcon as MoonIconOutline } from '@heroicons/react/24/outline'
 import Player from './components/Player'
 import scenes from './assets/scenes'
 
 function App() {
+  const [isDim, setIsDim] = useState(false)
   const [isSceneChanging, setIsSceneChanging] = useState(false)
   const [sceneIndex, setSceneIndex] = useState(0)
   const scene = scenes[sceneIndex]
+  const transitionDuration = 150
 
   function nextScene() {
     setIsSceneChanging(true)
     setTimeout(() => {
       setSceneIndex((prevSceneIndex) => (prevSceneIndex + 1) % scenes.length)
       setIsSceneChanging(false)
-    }, 300)
+    }, transitionDuration)
   }
 
   function prevScene() {
@@ -24,16 +28,16 @@ function App() {
           (prevSceneIndex === 0 ? scenes.length : prevSceneIndex) - 1
       )
       setIsSceneChanging(false)
-    }, 300)
+    }, transitionDuration)
   }
 
   return (
     <div className="absolute inset-0 bg-black">
       <div className="flex items-center justify-center h-full w-full select-none">
         <img
-          className={`absolute w-full h-full object-cover duration-300 transition-opacity object-bottom ${
-            isSceneChanging ? 'opacity-0' : 'opacity-100'
-          }`}
+          className={`absolute w-full h-full object-cover transition-opacity object-bottom ${
+            isSceneChanging ? 'opacity-0' : isDim ? 'opacity-50' : 'opacity-100'
+          } ${'duration-' + transitionDuration}`}
           src={scene.image}
         />
 
@@ -51,7 +55,14 @@ function App() {
           <ChevronLeftIcon className="w-12 scale-100 transition-transform group-hover:scale-110 text-white opacity-50 group-hover:opacity-100 group-active:opacity-100" />
         </button>
 
-        <div className="absolute bottom-24">
+        <div className="absolute bottom-24 backdrop-blur backdrop-brightness-95 rounded-3xl flex flex-row gap-4 p-6 justify-center items-center">
+          <button onClick={() => setIsDim((prevIsDim) => !prevIsDim)}>
+            {isDim ? (
+              <MoonIcon className="w-11 scale-100 transition-transform hover:scale-110 text-white" />
+            ) : (
+              <MoonIconOutline className="w-11 scale-100 transition-transform hover:scale-110 text-white" />
+            )}
+          </button>
           <Player src={scene.audio} />
         </div>
 

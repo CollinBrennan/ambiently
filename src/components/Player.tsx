@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from 'react'
 
 const Player = ({ src }: { src: string }) => {
   const [isPlaying, setIsPlaying] = useState(false)
-  const volume = getVolume()
   const audio = useRef(new Audio(src))
+  const volume = getVolume()
 
   function getVolume() {
     const storedVolume = localStorage.getItem('volume')
@@ -13,6 +13,7 @@ const Player = ({ src }: { src: string }) => {
 
   useEffect(() => {
     audio.current.loop = true
+    audio.current.volume = volume
   }, [])
 
   useEffect(() => {
@@ -35,7 +36,7 @@ const Player = ({ src }: { src: string }) => {
   }
 
   return (
-    <div className="backdrop-blur backdrop-brightness-95 rounded-3xl flex flex-row gap-4 p-6 justify-center items-center">
+    <>
       <button onClick={() => setIsPlaying((prevIsPlaying) => !prevIsPlaying)}>
         {!isPlaying ? (
           <PlayIcon className="w-12 scale-100 transition-transform hover:scale-110 text-white" />
@@ -43,6 +44,7 @@ const Player = ({ src }: { src: string }) => {
           <PauseIcon className="w-12 scale-100 transition-transform hover:scale-110 text-white" />
         )}
       </button>
+
       <input
         type="range"
         min={0}
@@ -51,7 +53,7 @@ const Player = ({ src }: { src: string }) => {
         defaultValue={volume}
         onChange={(e) => handleVolumeChange(Number(e.target.value))}
       />
-    </div>
+    </>
   )
 }
 
