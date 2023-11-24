@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/react/20/solid'
 import { MoonIcon } from '@heroicons/react/24/solid'
 import { MoonIcon as MoonIconOutline } from '@heroicons/react/24/outline'
@@ -13,10 +13,34 @@ function App() {
   const transitionDuration = 150
   preloadImages()
 
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      e.preventDefault()
+      switch (e.code) {
+        case 'ArrowRight':
+          nextScene()
+          break
+        case 'ArrowLeft':
+          prevScene()
+          break
+        case 'KeyD':
+          toggleDim()
+          break
+      }
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [])
+
   function preloadImages() {
     scenes.forEach((scene) => {
       new Image().src = scene.image
     })
+  }
+
+  function toggleDim() {
+    setIsDim((prevIsDim) => !prevIsDim)
   }
 
   function nextScene() {
@@ -50,7 +74,7 @@ function App() {
 
         <button
           onClick={nextScene}
-          className="group absolute right-0 h-full w-1/4 flex flex-row"
+          className="group absolute right-0 h-full w-1/4 flex flex-row outline-none"
         >
           <div className="bg-white/0 h-full w-24 group-hover:bg-white/25 rounded-l-[50%] transition-colors group-active:bg-white/25"></div>
           <div className="bg-white/0 h-full w-full flex items-center justify-center transition-colors group-hover:bg-white/25 group-active:bg-white/25">
@@ -60,7 +84,7 @@ function App() {
 
         <button
           onClick={prevScene}
-          className="group absolute left-0 h-full w-1/4 flex flex-row-reverse"
+          className="group absolute left-0 h-full w-1/4 flex flex-row-reverse outline-none"
         >
           <div className="bg-white/0 h-full w-24 group-hover:bg-white/25 rounded-r-[50%] transition-colors group-active:bg-white/25"></div>
           <div className="bg-white/0 h-full w-full flex items-center justify-center transition-colors group-hover:bg-white/25 group-active:bg-white/25">
@@ -69,7 +93,7 @@ function App() {
         </button>
 
         <div className="absolute bottom-24 backdrop-blur backdrop-brightness-95 rounded-3xl flex flex-row gap-4 p-6 justify-center items-center">
-          <button onClick={() => setIsDim((prevIsDim) => !prevIsDim)}>
+          <button className="outline-none" onClick={toggleDim}>
             {isDim ? (
               <MoonIcon className="w-11 scale-100 transition-transform hover:scale-110 text-white" />
             ) : (
