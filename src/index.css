@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer base {
+  .oval {
+    border-radius: 100% / 50%;
+  }
+
   button {
     -webkit-tap-highlight-color: transparent;
   }

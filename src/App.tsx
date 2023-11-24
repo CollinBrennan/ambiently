@@ -33,26 +33,26 @@ function App() {
 
   return (
     <div className="absolute inset-0 bg-black">
-      <div className="flex items-center justify-center h-full w-full select-none">
+      <div className="flex items-center justify-center h-full w-full select-none overflow">
         <img
           className={`absolute w-full h-full object-cover transition-opacity object-bottom ${
-            isSceneChanging ? 'opacity-0' : isDim ? 'opacity-50' : 'opacity-100'
+            isSceneChanging ? 'opacity-0' : isDim ? 'opacity-30' : 'opacity-90'
           } ${'duration-' + transitionDuration}`}
           src={scene.image}
         />
 
         <button
           onClick={nextScene}
-          className="group absolute flex justify-center items-center h-full w-1/5 transition-colors bg-opacity-0 bg-white hover:bg-opacity-25 active:bg-opacity-25 right-0"
+          className="group absolute oval rounded-r-none flex justify-center items-center h-full min-w-[20%] transition-colors bg-opacity-0 bg-white hover:bg-opacity-25 active:bg-opacity-25 right-0"
         >
-          <ChevronRightIcon className="w-12 scale-100 transition-transform group-hover:scale-110 text-white opacity-50 group-hover:opacity-100 group-active:opacity-100" />
+          <ChevronRightIcon className="w-12 mx-12 transition-transform group-hover:scale-110 text-white opacity-50 group-hover:opacity-100 group-active:opacity-100" />
         </button>
 
         <button
           onClick={prevScene}
-          className="group absolute flex justify-center items-center h-full w-1/5 transition-colors bg-opacity-0 bg-white hover:bg-opacity-25 active:bg-opacity-25 left-0"
+          className="group absolute oval rounded-l-none flex justify-center items-center h-full min-w-[20%] transition-colors bg-opacity-0 bg-white hover:bg-opacity-25 active:bg-opacity-25 left-0"
         >
-          <ChevronLeftIcon className="w-12 scale-100 transition-transform group-hover:scale-110 text-white opacity-50 group-hover:opacity-100 group-active:opacity-100" />
+          <ChevronLeftIcon className="w-12 mx-12 transition-transform group-hover:scale-110 text-white opacity-50 group-hover:opacity-100 group-active:opacity-100" />
         </button>
 
         <div className="absolute bottom-24 backdrop-blur backdrop-brightness-95 rounded-3xl flex flex-row gap-4 p-6 justify-center items-center">
