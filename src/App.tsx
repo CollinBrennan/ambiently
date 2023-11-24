@@ -50,16 +50,22 @@ function App() {
 
         <button
           onClick={nextScene}
-          className="absolute oval rounded-r-none flex justify-center items-center h-full min-w-[20%] transition-colors bg-opacity-0 bg-white hover:bg-opacity-25 active:bg-opacity-25 right-0"
+          className="group absolute right-0 h-full w-1/4 flex flex-row"
         >
-          <ChevronRightIcon className="w-12 mx-12 transition-transform group-hover:scale-110 text-white opacity-50 group-hover:opacity-100 group-active:opacity-100" />
+          <div className="bg-white/0 h-full w-24 group-hover:bg-white/25 rounded-l-[50%] transition-colors group-active:bg-white/25"></div>
+          <div className="bg-white/0 h-full w-full flex items-center justify-center transition-colors group-hover:bg-white/25 group-active:bg-white/25">
+            <ChevronRightIcon className="w-12 text-white/50 group-hover:scale-110 transition-transform group-hover:text-white/100 group-active:scale-110 -translate-x-1/2" />
+          </div>
         </button>
 
         <button
           onClick={prevScene}
-          className="group absolute oval rounded-l-none flex justify-center items-center h-full min-w-[20%] transition-colors bg-opacity-0 bg-white hover:bg-opacity-25 active:bg-opacity-25 left-0"
+          className="group absolute left-0 h-full w-1/4 flex flex-row-reverse"
         >
-          <ChevronLeftIcon className="w-12 mx-12 transition-transform group-hover:scale-110 text-white opacity-50 group-hover:opacity-100 group-active:opacity-100" />
+          <div className="bg-white/0 h-full w-24 group-hover:bg-white/25 rounded-r-[50%] transition-colors group-active:bg-white/25"></div>
+          <div className="bg-white/0 h-full w-full flex items-center justify-center transition-colors group-hover:bg-white/25 group-active:bg-white/25">
+            <ChevronLeftIcon className="w-12 text-white/50 group-hover:scale-110 transition-transform group-hover:text-white/100 translate-x-1/2 group-active:scale-110" />
+          </div>
         </button>
 
         <div className="absolute bottom-24 backdrop-blur backdrop-brightness-95 rounded-3xl flex flex-row gap-4 p-6 justify-center items-center">
