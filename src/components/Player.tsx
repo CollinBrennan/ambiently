@@ -4,11 +4,8 @@ import { isMobile } from 'react-device-detect'
 
 const Player = ({ src }: { src: string }) => {
   const [isPlaying, setIsPlaying] = useState(false)
-  const audio = useRef(new Audio(src))
   const [volume, setVolume] = useState(getVolume())
-
-  audio.current.loop = true
-  audio.current.volume = volume
+  const audioRef = useRef<HTMLAudioElement>(null)
 
   function getVolume() {
     if (isMobile) return 1.0
@@ -23,14 +20,10 @@ const Player = ({ src }: { src: string }) => {
           togglePlay()
           break
         case 'ArrowUp':
-          setVolume((prevVolume) =>
-            Math.min(Math.max(prevVolume + 0.05, 0.0), 1.0)
-          )
+          setVolume((prev) => Math.min(Math.max(prev + 0.05, 0.0), 1.0))
           break
         case 'ArrowDown':
-          setVolume((prevVolume) =>
-            Math.min(Math.max(prevVolume - 0.05, 0.0), 1.0)
-          )
+          setVolume((prev) => Math.min(Math.max(prev - 0.05, 0.0), 1.0))
           break
       }
     }
@@ -40,32 +33,27 @@ const Player = ({ src }: { src: string }) => {
   }, [])
 
   useEffect(() => {
-    audio.current.src = src
-    audio.current.load()
-    if (isPlaying) audio.current.play()
-  }, [src])
-
-  useEffect(() => {
     if (isPlaying) {
-      audio.current.play()
+      audioRef.current!.play()
     } else {
-      audio.current.pause()
+      audioRef.current!.pause()
     }
-  }, [isPlaying])
+  }, [isPlaying, src])
 
   useEffect(() => {
     if (!isMobile) {
-      audio.current.volume = volume
+      audioRef.current!.volume = volume
       localStorage.setItem('volume', volume.toString())
     }
   }, [volume])
 
   function togglePlay() {
-    setIsPlaying((prevIsPlaying) => !prevIsPlaying)
+    setIsPlaying((prev) => !prev)
   }
 
   return (
     <>
+      <audio src={src} ref={audioRef} loop />
       <button className="outline-none" onClick={togglePlay}>
         {!isPlaying ? (
           <PlayIcon className="w-12 scale-100 transition-transform hover:scale-110 text-white" />
