@@ -4,25 +4,36 @@ import Player from './components/Player'
 import scenes from './assets/scenes'
 
 function App() {
+  const [isSceneChanging, setIsSceneChanging] = useState(false)
   const [sceneIndex, setSceneIndex] = useState(0)
   const scene = scenes[sceneIndex]
 
   function nextScene() {
-    setSceneIndex((prevSceneIndex) => (prevSceneIndex + 1) % scenes.length)
+    setIsSceneChanging(true)
+    setTimeout(() => {
+      setSceneIndex((prevSceneIndex) => (prevSceneIndex + 1) % scenes.length)
+      setIsSceneChanging(false)
+    }, 300)
   }
 
   function prevScene() {
-    setSceneIndex(
-      (prevSceneIndex) =>
-        (prevSceneIndex === 0 ? scenes.length : prevSceneIndex) - 1
-    )
+    setIsSceneChanging(true)
+    setTimeout(() => {
+      setSceneIndex(
+        (prevSceneIndex) =>
+          (prevSceneIndex === 0 ? scenes.length : prevSceneIndex) - 1
+      )
+      setIsSceneChanging(false)
+    }, 300)
   }
 
   return (
-    <div className="absolute inset-0">
+    <div className="absolute inset-0 bg-black">
       <div className="flex items-center justify-center h-full w-full select-none">
         <img
-          className="absolute w-full h-full brightness-[80%] object-cover object-bottom"
+          className={`absolute w-full h-full object-cover duration-300 transition-opacity object-bottom ${
+            isSceneChanging ? 'opacity-0' : 'opacity-100'
+          }`}
           src={scene.image}
         />
 
