@@ -10,6 +10,9 @@ function App() {
   const [sceneIndex, setSceneIndex] = useState(getSceneIndex())
   const scene = scenes[sceneIndex]
 
+  // Preload images
+  scenes.forEach((scene) => (new Image().src = scene.image))
+
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
       e.preventDefault()
