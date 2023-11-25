@@ -8,15 +8,18 @@ import scenes from './assets/scenes'
 function App() {
   const [isDim, setIsDim] = useState(getIsDim())
   const [isSceneChanging, setIsSceneChanging] = useState(false)
-  const [sceneIndex, setSceneIndex] = useState(
-    Number(localStorage.getItem('sceneIndex') ?? 0)
-  )
+  const [sceneIndex, setSceneIndex] = useState(getSceneIndex())
   const scene = scenes[sceneIndex]
   const transitionDuration = 150
 
   function getIsDim(): boolean {
     const storedIsDim = localStorage.getItem('isDim')
     return storedIsDim ? JSON.parse(storedIsDim) : false
+  }
+
+  function getSceneIndex(): number {
+    const storedIndex = Number(localStorage.getItem('sceneIndex') ?? 0)
+    return storedIndex < scenes.length - 1 ? storedIndex : 0
   }
 
   useEffect(() => {
@@ -92,7 +95,7 @@ function App() {
         >
           <div className="bg-white/0 h-full w-24 group-hover:bg-white/25 rounded-l-[50%] transition-colors group-active:bg-white/25"></div>
           <div className="bg-white/0 h-full w-full flex items-center justify-center transition-colors group-hover:bg-white/25 group-active:bg-white/25">
-            <ChevronRightIcon className="w-12 text-white/50 group-hover:scale-110 transition-transform group-hover:text-white/100 group-active:scale-110 -translate-x-1/2" />
+            <ChevronRightIcon className="w-16 text-white/50 group-hover:scale-110 transition-transform group-hover:text-white/100 group-active:scale-110 -translate-x-6" />
           </div>
         </button>
 
@@ -102,7 +105,7 @@ function App() {
         >
           <div className="bg-white/0 h-full w-24 group-hover:bg-white/25 rounded-r-[50%] transition-colors group-active:bg-white/25"></div>
           <div className="bg-white/0 h-full w-full flex items-center justify-center transition-colors group-hover:bg-white/25 group-active:bg-white/25">
-            <ChevronLeftIcon className="w-12 text-white/50 group-hover:scale-110 transition-transform group-hover:text-white/100 translate-x-1/2 group-active:scale-110" />
+            <ChevronLeftIcon className="w-16 text-white/50 group-hover:scale-110 transition-transform group-hover:text-white/100 translate-x-6 group-active:scale-110" />
           </div>
         </button>
 
