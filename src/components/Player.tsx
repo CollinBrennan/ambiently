@@ -7,6 +7,9 @@ const Player = ({ src }: { src: string }) => {
   const [volume, setVolume] = useState(getVolume())
   const audioRef = useRef<HTMLAudioElement>(null)
 
+  const volumeMin = 0.0
+  const volumeMax = 1.0
+
   function getVolume() {
     if (isMobile) return 1.0
     return Number(localStorage.getItem('volume') ?? 0.5)
@@ -20,10 +23,14 @@ const Player = ({ src }: { src: string }) => {
           togglePlay()
           break
         case 'ArrowUp':
-          setVolume((prev) => Math.min(Math.max(prev + 0.05, 0.0), 1.0))
+          setVolume((prev) =>
+            Math.min(Math.max(prev + volumeMax * 0.05, volumeMin), volumeMax)
+          )
           break
         case 'ArrowDown':
-          setVolume((prev) => Math.min(Math.max(prev - 0.05, 0.0), 1.0))
+          setVolume((prev) =>
+            Math.min(Math.max(prev - volumeMax * 0.05, volumeMin), volumeMax)
+          )
           break
       }
     }
@@ -64,8 +71,8 @@ const Player = ({ src }: { src: string }) => {
       {!isMobile ? (
         <input
           type="range"
-          min={0}
-          max={1}
+          min={volumeMin}
+          max={volumeMax}
           step={0.01}
           value={volume}
           onChange={(e) => setVolume(Number(e.target.value))}
