@@ -39,7 +39,7 @@ function App() {
 
   function getSceneIndex(): number {
     const storedIndex = Number(localStorage.getItem('sceneIndex') ?? 0)
-    return storedIndex < scenes.length - 1 ? storedIndex : 0
+    return storedIndex < scenes.length ? storedIndex : 0
   }
 
   function toggleDim() {
