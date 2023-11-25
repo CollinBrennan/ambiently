@@ -6,21 +6,28 @@ import Player from './components/Player'
 import scenes from './assets/scenes'
 
 function App() {
-  const [isDim, setIsDim] = useState(false)
+  const [isDim, setIsDim] = useState(getIsDim())
   const [isSceneChanging, setIsSceneChanging] = useState(false)
-  const [sceneIndex, setSceneIndex] = useState(0)
+  const [sceneIndex, setSceneIndex] = useState(
+    Number(localStorage.getItem('sceneIndex') ?? 0)
+  )
   const scene = scenes[sceneIndex]
   const transitionDuration = 150
+
+  function getIsDim(): boolean {
+    const storedIsDim = localStorage.getItem('isDim')
+    return storedIsDim ? JSON.parse(storedIsDim) : false
+  }
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
       e.preventDefault()
       switch (e.code) {
         case 'ArrowRight':
-          nextScene()
+          renderNextScene()
           break
         case 'ArrowLeft':
-          prevScene()
+          renderPrevScene()
           break
         case 'KeyD':
           toggleDim()
@@ -39,21 +46,32 @@ function App() {
   }
 
   function toggleDim() {
-    setIsDim((prev) => !prev)
+    setIsDim((prev) => {
+      localStorage.setItem('isDim', JSON.stringify(!prev))
+      return !prev
+    })
   }
 
-  function nextScene() {
+  function renderNextScene() {
     setIsSceneChanging(true)
     setTimeout(() => {
-      setSceneIndex((prev) => (prev + 1) % scenes.length)
+      setSceneIndex((prev) => {
+        const newIndex = (prev + 1) % scenes.length
+        localStorage.setItem('sceneIndex', JSON.stringify(newIndex))
+        return newIndex
+      })
       setIsSceneChanging(false)
     }, transitionDuration)
   }
 
-  function prevScene() {
+  function renderPrevScene() {
     setIsSceneChanging(true)
     setTimeout(() => {
-      setSceneIndex((prev) => (prev === 0 ? scenes.length : prev) - 1)
+      setSceneIndex((prev) => {
+        const newIndex = (prev === 0 ? scenes.length : prev) - 1
+        localStorage.setItem('sceneIndex', JSON.stringify(newIndex))
+        return newIndex
+      })
       setIsSceneChanging(false)
     }, transitionDuration)
   }
@@ -69,7 +87,7 @@ function App() {
         />
 
         <button
-          onClick={nextScene}
+          onClick={renderNextScene}
           className="group absolute right-0 h-full w-1/4 flex flex-row outline-none"
         >
           <div className="bg-white/0 h-full w-24 group-hover:bg-white/25 rounded-l-[50%] transition-colors group-active:bg-white/25"></div>
@@ -79,7 +97,7 @@ function App() {
         </button>
 
         <button
-          onClick={prevScene}
+          onClick={renderPrevScene}
           className="group absolute left-0 h-full w-1/4 flex flex-row-reverse outline-none"
         >
           <div className="bg-white/0 h-full w-24 group-hover:bg-white/25 rounded-r-[50%] transition-colors group-active:bg-white/25"></div>

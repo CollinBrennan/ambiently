@@ -43,7 +43,7 @@ const Player = ({ src }: { src: string }) => {
   useEffect(() => {
     if (!isMobile) {
       audioRef.current!.volume = volume
-      localStorage.setItem('volume', volume.toString())
+      localStorage.setItem('volume', JSON.stringify(volume))
     }
   }, [volume])
 
