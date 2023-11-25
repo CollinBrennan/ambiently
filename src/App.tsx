@@ -7,20 +7,8 @@ import scenes from './assets/scenes'
 
 function App() {
   const [isDim, setIsDim] = useState(getIsDim())
-  const [isSceneChanging, setIsSceneChanging] = useState(false)
   const [sceneIndex, setSceneIndex] = useState(getSceneIndex())
   const scene = scenes[sceneIndex]
-  const transitionDuration = 150
-
-  function getIsDim(): boolean {
-    const storedIsDim = localStorage.getItem('isDim')
-    return storedIsDim ? JSON.parse(storedIsDim) : false
-  }
-
-  function getSceneIndex(): number {
-    const storedIndex = Number(localStorage.getItem('sceneIndex') ?? 0)
-    return storedIndex < scenes.length - 1 ? storedIndex : 0
-  }
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
@@ -37,15 +25,18 @@ function App() {
           break
       }
     }
-    preloadImages()
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [])
 
-  function preloadImages() {
-    scenes.forEach((scene) => {
-      new Image().src = scene.image
-    })
+  function getIsDim(): boolean {
+    const storedIsDim = localStorage.getItem('isDim')
+    return storedIsDim ? JSON.parse(storedIsDim) : false
+  }
+
+  function getSceneIndex(): number {
+    const storedIndex = Number(localStorage.getItem('sceneIndex') ?? 0)
+    return storedIndex < scenes.length - 1 ? storedIndex : 0
   }
 
   function toggleDim() {
@@ -56,36 +47,29 @@ function App() {
   }
 
   function renderNextScene() {
-    setIsSceneChanging(true)
-    setTimeout(() => {
-      setSceneIndex((prev) => {
-        const newIndex = (prev + 1) % scenes.length
-        localStorage.setItem('sceneIndex', JSON.stringify(newIndex))
-        return newIndex
-      })
-      setIsSceneChanging(false)
-    }, transitionDuration)
+    setSceneIndex((prev) => {
+      const newIndex = (prev + 1) % scenes.length
+      localStorage.setItem('sceneIndex', JSON.stringify(newIndex))
+      return newIndex
+    })
   }
 
   function renderPrevScene() {
-    setIsSceneChanging(true)
-    setTimeout(() => {
-      setSceneIndex((prev) => {
-        const newIndex = (prev === 0 ? scenes.length : prev) - 1
-        localStorage.setItem('sceneIndex', JSON.stringify(newIndex))
-        return newIndex
-      })
-      setIsSceneChanging(false)
-    }, transitionDuration)
+    setSceneIndex((prev) => {
+      const newIndex = (prev === 0 ? scenes.length : prev) - 1
+      localStorage.setItem('sceneIndex', JSON.stringify(newIndex))
+      return newIndex
+    })
   }
 
   return (
     <div className="absolute inset-0 bg-black">
       <div className="flex items-center justify-center h-full w-full select-none overflow">
         <img
-          className={`absolute w-full h-full object-cover transition-opacity object-bottom ${
-            isSceneChanging ? 'opacity-0' : isDim ? 'opacity-30' : 'opacity-90'
-          } ${'duration-' + transitionDuration}`}
+          className={
+            'absolute w-full h-full object-cover transition-opacity object-bottom ' +
+            (isDim ? ' opacity-30' : ' opacity-90')
+          }
           src={scene.image}
         />
 
